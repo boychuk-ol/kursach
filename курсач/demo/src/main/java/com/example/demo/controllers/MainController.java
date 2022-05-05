@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Post;
-import com.example.demo.repo.PostRepository;
+import com.example.demo.models.User;
+import com.example.demo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,8 @@ public class MainController {
     @GetMapping("/important")
     public String important(Model model) {
         model.addAttribute("title","Important");
-        return "important";}
+        return "important";
+    }
 
     @GetMapping("/planned")
     public String planned(Model model) {
@@ -33,16 +34,6 @@ public class MainController {
         return "planned";
     }
 
-    @Autowired
-    private PostRepository postRepository;
-
-    @GetMapping("/tasks")
-    public String tasks(Model model) {
-        model.addAttribute("title","Tasks");
-        Iterable<Post> posts = postRepository.findAll();
-        model.addAttribute("posts",posts);
-        return "tasks";
-    }
 
     @GetMapping("/registration")
     public String registration(Model model) {

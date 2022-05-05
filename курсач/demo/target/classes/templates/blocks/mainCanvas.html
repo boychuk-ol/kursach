@@ -7,6 +7,11 @@
                 <button class="btn btn-outline-secondary" type="button" style="color:black;">Add</button>
             </div>
         </div>
+        <div th:each="task : ${all_tasks}" class="alert alert-info mt-2">
+            <p th:text="${task.taskId}"></p>
+            <p th:text="${task.title}"></p>
+            <p th:text="${task.category}"></p>
+        </div>
     </div>
     <style>
         span#mainCanvasSpan
