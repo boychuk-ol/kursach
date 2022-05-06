@@ -1,16 +1,18 @@
 <div th:fragment="mainCanvas">
     <div id="mainCanvas">
         <h5><span id="mainCanvasSpan" th:text="${title}"></span></h5>
-        <div class="inputAndButton">
-            <input type="text" class="form-control" placeholder="Add a task" aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" style="color:black;">Add</button>
+        <form method="post" th:object="${new_task}" action="/tasks" th:action="@{~/tasks}">
+            <div class="inputAndButton">
+                    <input type="text" name="title" class="form-control" placeholder="Add a task" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-success">Add</button>
+                    </div>
             </div>
-        </div>
+        </form>
         <div th:each="task : ${all_tasks}" class="alert alert-info mt-2">
             <p th:text="${task.taskId}"></p>
-            <p th:text="${task.title}"></p>
             <p th:text="${task.category}"></p>
+            <p th:text="${task.title}"></p>
         </div>
     </div>
     <style>

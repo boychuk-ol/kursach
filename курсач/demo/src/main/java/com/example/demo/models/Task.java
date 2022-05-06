@@ -8,16 +8,24 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int taskId;
+    private long taskId;
 
     private String title, category;
 
+    public Task(long taskId, String title, String category) {
+        this.taskId = taskId;
+        this.title = title;
+        this.category = category;
+    }
 
-    public int getTaskId() {
+    public Task() {
+    }
+
+    public long getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(int taskId) {
+    public void setTaskId(long taskId) {
         this.taskId = taskId;
     }
 

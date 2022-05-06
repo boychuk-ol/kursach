@@ -22,4 +22,14 @@ public class TaskService {
     {
         return repository.findAll();
     }
+
+    public void addTask(Task task)
+    {
+        repository.saveAndFlush(task);
+    }
+
+    public long numberOfTasks()
+    {
+       return repository.count();
+    }
 }
