@@ -16,17 +16,14 @@
 <div class="login-page">
     <div class="form">
         <span><h3>Registration</h3></span>
-        <form class="register-form">
-            <input type="text" placeholder="name"/>
-            <input type="password" placeholder="password"/>
-            <input type="text" placeholder="email address"/>
-            <button>create</button>
-            <p class="message">Already registered? <a href="#">Sign In</a></p>
-        </form>
-        <form class="login-form">
-            <input type="text" placeholder="username"/>
-            <input type="password" placeholder="password"/>
-            <button>Create an account</button>
+        <form class="login-form" th:action="@{~/registration}" th:object="${userForm}" method="post">
+            <input type="text" placeholder="Username" th:field="*{username}">
+            <small class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+            <input type="password" placeholder="Password" th:field="*{password}">
+            <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+            <input type="password" placeholder="Confirm password" th:field="*{passwordConfirm}">
+            <button type="submit">create</button>
+            <p class="message">Already registered? <a th:href="@{/log}">Sign In</a></p>
         </form>
     </div>
 </div>
