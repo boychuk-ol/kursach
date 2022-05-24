@@ -1,0 +1,42 @@
+<div th:fragment="header">
+  <header  class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="home">To do</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <input id="navbarSearch" class="form-control form-control-dark" type="text" placeholder="Search" aria-label="Search">
+      <span>
+        <form name="logoutForm" th:action="@{~/login?logout}" method="post">
+          <input type="submit" class="btn btn-light" value="Sign out">
+        </form>
+      </span>
+      <span>
+        <form name="loginForm" th:action="@{~/login}">
+          <input type="submit" class="btn btn-light" value="Sign in">
+        </form>
+      </span>
+  </header>
+  <style>
+
+
+    span
+    {
+    text-align: center;
+    display:inline;
+    margin-top: 15px;
+    margin-right: 15px;
+    }
+    @media (max-width: 767px)
+    {
+      input#navbarSearch
+      {
+      width:50%;
+      }
+    }
+    input#navbarSearch
+    {
+    width:1000px;
+    }
+
+  </style>
+</div>

@@ -1,8 +1,10 @@
 package com.example.demo.User;
 
 import com.example.demo.Role.Role;
+import com.example.demo.Task.Task;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -11,6 +13,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id", nullable = false)
     private long userId;
 
     private String username,password;
@@ -25,6 +28,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    private Collection<Task> tasks;
+
 
     public String getPasswordConfirm() {
         return passwordConfirm;

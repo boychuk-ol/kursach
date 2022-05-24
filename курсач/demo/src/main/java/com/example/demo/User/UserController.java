@@ -1,5 +1,7 @@
 package com.example.demo.User;
 
+import com.example.demo.Task.Task;
+import com.example.demo.Task.TaskService;
 import com.example.demo.User.Security.SecurityService;
 import com.example.demo.User.Validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +10,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -27,22 +29,28 @@ public class UserController {
         this.securityService = securityService;
     }
 
-    @GetMapping("/log")
-    public String login(Model model)
+    @GetMapping("/login")
+    public String login(Model model, String error, String logout)
     {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(error != null)
+        {
+            model.addAttribute("error","Username or password is incorrect");
+        }
+
+
+        if (logout !=null)
+        {
+            model.addAttribute("message", "Logged out successfully");
+            return "redirect:/tasks";
+        }
+
+
         return "login";
     }
 
 
-    @RequestMapping(value = {"/allTasks"},method = RequestMethod.GET)
-    public String allTasks(Model model)
-    {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String s = authentication.getName();
-
-        model.addAttribute("username", s);
-        return "allTasks";
-    }
 
     // Передача браузеру страницы с формой
     @RequestMapping(value = {"/registration"}, method = RequestMethod.GET)
@@ -70,7 +78,7 @@ public class UserController {
         securityService.manualLogin(userForm.getUsername(),userForm.getPasswordConfirm());
 
         // Перенаправление на приветственную страницу
-        return "redirect:/allTasks";
+        return "redirect:/tasks";
     }
 
 

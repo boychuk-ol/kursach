@@ -1,0 +1,95 @@
+<div th:fragment="mainCanvas">
+    <div id="mainCanvas">
+        <h5><span id="mainCanvasSpan" th:text="${title}"></span></h5>
+        <h5><span th:if="${username} != null" th:text="'Hello, ' + ${username}"></span></h5>
+        <h5><span th:text="${message}"></span></h5>
+
+        <form method="post" th:object="${added_task}" th:action="@{~/tasks/add}">
+            <div class="inputAndButton">
+                <input type="text" name="title" class="form-control" placeholder="Add a task" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-success">Add</button>
+                </div>
+            </div>
+        </form>
+        <div class="card-body" th:each="task : ${all_tasks}">
+            <h5 th:text="${task.title}" class="card-title"></h5>
+            <p th:text="${task.category}" class="card-text"></p>
+            <p th:text="${task.taskId}"></p>
+            <p th:text="${task.isImportant}"></p>
+            <p th:text="${task.isDone}"></p>
+            <form th:action="@{'/tasks/changeImportance/' + ${task.taskId}}" method="post">
+                <input type="checkbox" th:checked="${task.isImportant}" th:onclick="submit()">
+            </form>
+            <form th:action="@{'/tasks/changeDone/' + ${task.taskId}}" method="post">
+                <input type="checkbox" th:checked="${task.isDone}" th:onclick="submit()">
+            </form>
+            <form th:method="delete" th:action="'/tasks/remove/' + ${task.taskId}" method="post">
+                <button id="taskButton" name="delete" type="submit" class="btn btn-outline-success">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        span.importanceButton
+        {
+        height:10px;
+        width:20px;
+        }
+        div.card-body
+        {
+        border:1px black solid;
+        margin-top:5px;
+        }
+        div.card-body > *
+        {
+        display:inline;
+        padding-right:10px;
+        }
+        span#mainCanvasSpan
+        {
+        font-weight:bold;
+        }
+        button#taskButton
+        {
+        position: relative;
+        background-color:white;
+        border-radius: 10%;
+        float:right;
+        }
+        div#mainCanvas
+        {
+        display:inline-block;
+        width:85%;
+        float:right;
+        background-color:#F0FFFF;
+        height:100%;
+        min-height:250px;
+        padding-top:10px;
+        padding-left:15px;
+        padding-right:15px;
+        }
+        div.inputAndButton
+        {
+        display:inline-block;
+        width:450px;
+        display: flex;
+        }
+        div.inputAndButton input
+        {
+        border-radius: 10px;
+        }
+
+        @media (max-width: 767px)
+        {
+            div#mainCanvas
+            {
+            display:inline-block;
+            width:100%;
+            float:right;
+            background-color:#F0FFFF;
+            height:1000px;
+            }
+        }
+    </style>
+</div>

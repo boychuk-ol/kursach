@@ -23,7 +23,8 @@
             <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
             <input type="password" placeholder="Confirm password" th:field="*{passwordConfirm}">
             <button type="submit">create</button>
-            <p class="message">Already registered? <a th:href="@{/log}">Sign In</a></p>
+            <p class="message">Already registered? <a th:href="@{/login}">Sign In</a></p>
+            <a th:href="@{/tasks}">Return to home page</a>
         </form>
     </div>
 </div>
