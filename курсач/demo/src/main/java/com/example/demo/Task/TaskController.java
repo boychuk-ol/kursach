@@ -73,7 +73,7 @@ public class TaskController {
     }
 
     // Видалення завдання
-    @RequestMapping(value="/tasks/remove/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value="/tasks/remove/{id}", method = RequestMethod.POST)
     public String removeTask(@PathVariable(value="id") long taskId)
     {
         if (taskId>0) {
