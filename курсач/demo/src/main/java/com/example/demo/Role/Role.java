@@ -1,13 +1,14 @@
 package com.example.demo.Role;
-
 import com.example.demo.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import org.springframework.lang.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Set;
 
+
+// Клас для надання ролі юзеру
 @Entity
 @Table(name="role_s")
 public class Role {
@@ -19,6 +20,13 @@ public class Role {
     @NotNull
     private String name;
 
+    @Autowired
+    public Role(String name) {
+        this.name = name;
+    }
+
+    @Autowired
+    public Role() {}
 
     public long getId() {
         return id;
@@ -44,6 +52,7 @@ public class Role {
         this.users = users;
     }
 
+    // Юзер може мати декілька ролей. Роль може належати декілька юзерам
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     private Set<User> users;

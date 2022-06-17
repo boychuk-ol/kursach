@@ -2,12 +2,12 @@ package com.example.demo.Task;
 
 import com.example.demo.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.*;
 
+// Клас для збереження завдань
 @Entity
 @Table(name = "tasks")
 public class Task {
@@ -16,36 +16,44 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long taskId;
 
-    private String title, category;
-    private boolean isImportant;
-    private boolean isDone;
+    private String title;
 
+    // Завдання може мати деякі категорії, що відрізняються за кольором
+    @ElementCollection
+    private Set<Category> category;
 
+    public enum Category {
+        Blue, Red, Green, Yellow, Orange, Violet;
+    }
+
+    private boolean isImportant,isDone;
+    private LocalDate localDate;
+
+    // Юзер може мати багато завдань. Кожне завдання має відношення лише до одного юзера
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     @JsonIgnore
     private User user;
 
     @Autowired
-    public Task(String title, String category, boolean isImportant, boolean isDone) {
+    public Task(String title, boolean isImportant, boolean isDone) {
         this.title = title;
-        this.category = category;
+        this.category = new HashSet<>();
         this.isImportant = isImportant;
         this.isDone = isDone;
     }
 
     @Autowired
-    public Task(String title, String category, boolean isImportant, boolean isDone, User user) {
+    public Task(String title, boolean isImportant, boolean isDone, User user) {
         this.title = title;
-        this.category = category;
+        this.category = new HashSet<>();
         this.user = user;
         this.isImportant = isImportant;
         this.isDone = isDone;
     }
 
     @Autowired
-    public Task() {
-    }
+    public Task() {}
 
     public long getTaskId() {
         return taskId;
@@ -63,13 +71,9 @@ public class Task {
         this.title = title;
     }
 
-    public String getCategory() {
-        return category;
-    }
+    public Set<Category> getCategory() {return category;}
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public void setCategory(Set<Category> category) {this.category = category;}
 
     public boolean isImportant() {
         return isImportant;
@@ -93,5 +97,11 @@ public class Task {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public LocalDate getLocalDate() {return localDate;}
+
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
     }
 }

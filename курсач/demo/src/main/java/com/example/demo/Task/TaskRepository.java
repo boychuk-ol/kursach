@@ -3,8 +3,6 @@ package com.example.demo.Task;
 
 import com.example.demo.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Collection;
 import java.util.List;
 
 

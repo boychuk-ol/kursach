@@ -20,9 +20,9 @@ public class SecurityService {
         this.authenticationManager = authenticationManager;
     }
 
-
     public void manualLogin(String username, String password)
     {
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());

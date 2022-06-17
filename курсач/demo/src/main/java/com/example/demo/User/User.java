@@ -2,11 +2,11 @@ package com.example.demo.User;
 
 import com.example.demo.Role.Role;
 import com.example.demo.Task.Task;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 
+// Клас юзерів(користувачів)
 @Entity
 @Table(name = "users")
 public class User {
@@ -21,6 +21,7 @@ public class User {
     @Transient
     private String passwordConfirm;
 
+    // Юзер може мати декілька ролей. Роль може належати декілька юзерам
     @ManyToMany
     @JoinTable(
             name = "user_role",
@@ -29,9 +30,9 @@ public class User {
     )
     private Set<Role> roles;
 
+    // Юзер може мати безліч завдань. Будь-яке з завдань належить лише одному юзеру
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private Collection<Task> tasks;
-
 
     public String getPasswordConfirm() {
         return passwordConfirm;
