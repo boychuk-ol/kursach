@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class TaskService {
 
-    private TaskRepository repository;
+    private final TaskRepository repository;
 
     @Autowired
     public TaskService(TaskRepository repository)

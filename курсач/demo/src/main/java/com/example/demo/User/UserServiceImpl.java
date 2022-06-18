@@ -12,9 +12,9 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepo;
-    private RoleRepository roleRepo;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepo;
+    private final RoleRepository roleRepo;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepo, RoleRepository roleRepo, BCryptPasswordEncoder bCryptPasswordEncoder) {

@@ -6,7 +6,6 @@ import com.example.demo.User.Validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,10 +32,14 @@ public class UserController {
         this.securityService = securityService;
     }
 
-    @GetMapping("/login")
-    public String login(Model model, String error, String logout)
+    public String getUsernameUsingSecurityContext()
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
+    @GetMapping("/login")
+    public String login(Model model, String error, String logout) {
 
         if(error != null)
         {
@@ -52,6 +55,7 @@ public class UserController {
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
@@ -62,35 +66,9 @@ public class UserController {
     // Передача браузеру страницы с формой
     @RequestMapping(value = {"/registration"}, method = RequestMethod.GET)
     public String registration(Model model) {
-
         model.addAttribute("userForm", new User());
-
         return "registration";
     }
-
-    @RequestMapping(value = {"/myprofile"}, method = RequestMethod.GET)
-    public String myProfile(Model model)
-    {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String s = authentication.getName();
-
-        model.addAttribute("userName",s);
-        return "myProfile";
-    }
-
-    @GetMapping("/deleteUser")
-    public String deleteUser()
-    {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String s = authentication.getName();
-
-        taskService.deleteAllTasksByUser(userService.findByUsername(s));
-        userService.remove(userService.findByUsername(s));
-
-        return "redirect:/logout";
-    }
-
-
 
     // Обработка данных формы
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -113,5 +91,22 @@ public class UserController {
         return "redirect:/tasks";
     }
 
+    @GetMapping("/deleteUser")
+    public String deleteUser() {
+
+        if (userService.findByUsername(getUsernameUsingSecurityContext())!=null) {
+            taskService.deleteAllTasksByUser(userService.findByUsername(getUsernameUsingSecurityContext()));
+            userService.remove(userService.findByUsername(getUsernameUsingSecurityContext()));
+        }
+        else throw new NullPointerException();
+
+        return "redirect:/logout";
+    }
+
+    @RequestMapping(value = {"/myprofile"}, method = RequestMethod.GET)
+    public String myProfile(Model model) {
+        model.addAttribute("userName",getUsernameUsingSecurityContext());
+        return "myProfile";
+    }
 
 }
